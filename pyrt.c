@@ -38,7 +38,15 @@ static PyObject* py_realtime_request_priority(PyObject* self, PyObject* args) {
     priority.sched_priority = rt_priority;
     int ret = sched_setscheduler(getpid(), SCHED_RR, &priority);
     if (ret != 0) {
-        fprintf(stderr, "Error setting priority");
+        fprintf(stderr, "Error setting priority\n");
+
+        if (errno == EINVAL) {
+            fprintf(stderr, "Non standard scheduling policy\n");
+        } else if (errno == EPERM) {
+            fprintf(stderr, "Lacking appropriate privileges\n");
+        } else if (errno == ESRCH) {
+            fprintf(stderr, "PID not found\n");
+        }
         exit(EXIT_FAILURE);
     }
 
