@@ -62,7 +62,7 @@ static struct PyModuleDef pyrtmodule = {
         PyRealtimeMethods
 };
 
-PyMODINIT_FUNC PyInit_pyrt(void) {
+PyMODINIT_FUNC PyInit_py_realtime(void) {
     PyObject* m;
 
     m = PyModule_Create(&pyrtmodule);
